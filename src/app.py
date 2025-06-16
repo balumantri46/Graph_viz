@@ -354,11 +354,14 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.text_input("Quick bug report:",
+    bug_txt=st.text_input("Quick bug report:",
                                placeholder="Briefly describe the issue...",
                                label_visibility="collapsed")
     if(st.button("Report Bug")):
-        st.success("Bug Reported, Email us if you want to contact.")
+        if(not bug_txt):
+            st.error("Please Fill the Field, or Email us if you want to contact.")
+        else:
+            st.success("Bug Reported, Email us if you want to contact.")
     st.markdown("""
     ---
     *Designed & Developed by $$Balu$$*\n
