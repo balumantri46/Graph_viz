@@ -2,3 +2,5 @@ streamlit>=1.28.0
 networkx>=3.0
 google-generativeai>=0.3.0
 matplotlib>=3.7.0
+pydot
+graphviz
