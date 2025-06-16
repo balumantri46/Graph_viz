@@ -158,7 +158,7 @@ def build_graph_from_data(graph: dict) -> nx.DiGraph:
 
 # --- Graph Visualization Function ---
 def visualize_graph(G: nx.DiGraph, layout="dot", node_shape="o", node_color="#ADD8E6", edge_color="#808080",
-                    font_color="black",arrwstyle='-|>'):
+                    font_color="black",arrwstyle='-|>',arrw_size=60):
     """
     Visualizing the networkX graph using matplotlib (with graphviz layout)
     and displays it in streamlit, applying styling options.
@@ -192,7 +192,7 @@ def visualize_graph(G: nx.DiGraph, layout="dot", node_shape="o", node_color="#AD
                                nodelist=nodes_with_pos,  # only nodes that have positions
                                node_shape=node_shape,
                                node_color=node_color,
-                               node_size=5000,
+                               node_size=2200,
                                ax=ax)
         #checking if the src and dst edges are present
         edges_to_draw = [(u, v) for u, v in G.edges() if u in pos and v in pos]
@@ -200,7 +200,7 @@ def visualize_graph(G: nx.DiGraph, layout="dot", node_shape="o", node_color="#AD
                 nx.draw_networkx_edges(G, pos,
                                        edgelist=edges_to_draw,
                                        arrowstyle=arrwstyle,
-                                       arrowsize=20,
+                                       arrowsize=arrw_size,
                                        edge_color=edge_color,
                                        arrows=True,
                                        ax=ax)
@@ -243,6 +243,7 @@ def main():
     st.set_page_config(page_title="graph_viz", layout="centered")
     st.title("LLM Powered Graph 📈 Visualizer")
     st.markdown("""
+    
     Enter the prompt in natural language in the bellow input box!\n
     Experiment with different styling options in the sidebar.
     """)
@@ -264,11 +265,14 @@ def main():
     )
     arrw_style = st.sidebar.selectbox(
         "Edge ArrowStyle:",
-        ["Directed","Bi-Directional","Fancy","Square Bracket at start"],
+        ["Directed","Bi-Directional","Fancy","Square Brackets"],
         help="Pick the desired ArrowStyle that will be in the graph between nodes."
     )
+    arrw_size = st.sidebar.slider(
+        "Select the Arrow Size",60,500
+    )
     node_color_option = st.sidebar.color_picker(
-        "Node Fill Color:", "#78BFE0",  #light blue buy default
+        "Node Fill Color:", "#78BFE0",  #light blue by default
         help="Color of the node's interior."
     )
     edge_color_option = st.sidebar.color_picker(
@@ -280,6 +284,26 @@ def main():
         help="Color of the node labels."
     )
     st.markdown("---")  # sep
+    css = """
+    <style>
+    .stButton > button{
+    border:rgba(239, 239, 240, 0.41) solid 1px;
+    transition : background 0.4s ease, box-shadow 0.3s ease-out, color 0.3s ease-in-out;
+    }
+    .stButton > button:hover,.stButton > button:focus{
+        border:rgba(239, 239, 240, 0.41) solid 1px;
+        background: linear-gradient(135deg, #454cc6 2%, #8b90f1 98%);
+        box-shadow: 5px 8px 12px rgba(148, 152, 235, 0.4);
+        color: #ffffff !important;
+    }
+     h1{
+    font-family:  'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 2.5rem !important;
+    }
+    </style>
+    """
+    st.markdown(css,unsafe_allow_html=True)
     if st.button("Generate Graph 💹"):
         if user_prompt:
             with st.spinner("Processing with LLM"):
@@ -297,7 +321,7 @@ def main():
                     "Directed":'-|>',
                     "Bi-Directional":'<->',
                     "Fancy":'fancy',
-                    "Square Bracket at start":'wedge'
+                    "Square Brackets":']-['
                 }
                 arrw_style = arr_styles.get(arrw_style,'-|>')
                 visualize_graph(
@@ -307,7 +331,8 @@ def main():
                     node_color=node_color_option,
                     edge_color=edge_color_option,
                     font_color=font_color_option,
-                    arrwstyle=arrw_style
+                    arrwstyle=arrw_style,
+                    arrw_size=arrw_size
                 )
             else:
                 pass
@@ -319,7 +344,7 @@ def main():
     st.markdown("---")
     st.markdown(
         """
-        <div style='text-align: center; color: #666; font-size: 0.8em;'>
+        <div style='text-align: center; color: #666; font-size: 1em;'>
         🐞 Found a bug? <a href='mailto:balasubrahmanyammantri@gmail.com?subject=Bug Report'>Email us</a> 
         or report it below
         </div>
