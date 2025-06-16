@@ -286,12 +286,13 @@ def main():
     st.markdown("---")  # sep
     css = """
     <style>
-    .stButton > button{
+    .stButton > button,.stDownloadButton > button{
     border:rgba(239, 239, 240, 0.41) solid 1px;
     transition : background 0.4s ease, box-shadow 0.3s ease-out, color 0.3s ease-in-out;
     }
-    .stButton > button:hover,.stButton > button:focus{
+    .stButton > button:hover,.stButton > button:focus,.stDownloadButton > button:hover,.stDownloadButton > button:focus{
         border:rgba(239, 239, 240, 0.41) solid 1px;
+        outline:none !important;
         background: linear-gradient(135deg, #454cc6 2%, #8b90f1 98%);
         box-shadow: 5px 8px 12px rgba(148, 152, 235, 0.4);
         color: #ffffff !important;
@@ -359,8 +360,8 @@ def main():
         st.success("Bug Reported, Email us if you want to contact.")
     st.markdown("""
     ---
-    *Designed & Developed by Balu*\n
-    *Graph Visualisation powered by Gemini LLM & Networkx*
+    *Designed & Developed by $$Balu$$*\n
+    *Graph Visualisation powered by Gemini LLM & Networkx.*
     """)
 if __name__ == "__main__":
     main()
