@@ -77,12 +77,13 @@ import google.generativeai as ai
 import json
 import matplotlib.pyplot as plt
 import io
-# if "g_api_key" not in os.environ:
-#     st.error("Error: Gemini API key (g_api_key) environment variable not set. "
-#              "Please set it to your Gemini API key.")
-#     st.stop()  # Stop the app if API key is missing
+import os
+if "g_api_key" not in os.environ:
+    st.error("Error: Gemini API key (g_api_key) environment variable not set. "
+             "Please set it to your Gemini API key.")
+    st.stop()  # Stop the app
 try:
-    ai.configure(api_key="AIzaSyA7QgBYUE5yT4eyznhXY1nqq4fv3PGk3zQ")
+    ai.configure(api_key=os.environ["g_api_key"])
 except Exception as e:
     st.error(f"Error occured during connecting to the LLM : {e}")
 # interaction with llm
