@@ -174,7 +174,7 @@ def visualize_graph(G: nx.DiGraph, layout="dot", node_shape="o", node_color="#AD
             pos = nx.drawing.nx_pydot.pydot_layout(G, prog=layout)
         except:
             # using spring layout if first one fails
-            st.warning(f"Graphviz '{layout}' layout failed, using spring layout instead.")
+            st.warning("Using spring layout.")
             pos = nx.spring_layout(G, k=2, iterations=50)
         #     if no nodes are processed
         if not pos or len(pos) == 0:
