@@ -95,6 +95,7 @@ def extract_graph_data_from_prompt(user_prompt: str) -> dict:
         "gemini-1.5-flash")
     system_ins = (
         "You are a graph data extractor. Your task is to analyze user prompts "
+        "If the user prompts contains some other info ignore that and focus on the nodes and edges given by user, deeply process the users prompt to refine a graph from it."
         "describing relationships between entities and output a JSON object "
         "containing two keys: 'nodes' (a list of unique entity names) "
         "and 'edges' (a list of dictionaries, each with 'source' and 'target' keys). "
@@ -103,6 +104,7 @@ def extract_graph_data_from_prompt(user_prompt: str) -> dict:
         "Ensure the output is valid JSON and nothing else. "
         "Example prompt: 'A travels to B and B Travels to D via C, C travels to E.'\n"
         "Example output: {\"nodes\": [\"A\", \"B\", \"C\", \"D\", \"E\"], \"edges\": [{\"source\": \"A\", \"target\": \"B\"}, {\"source\": \"B\", \"target\": \"C\"}, {\"source\": \"C\", \"target\": \"D\"}, {\"source\": \"C\", \"target\": \"E\"}]}"
+        "only after deep processing identifying nodes and edges of it dosen't mean to any graph then only decide that graph cannot be formed examine the user prompts deeply" 
         "If a graph cannot be logically formed from the user prompt (e.g., it's a casual conversation, a non-graph request), "
         "then respond ONLY with the exact string 'NO_GRAPH_POSSIBLE'."  
     )
