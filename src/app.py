@@ -257,8 +257,8 @@ def main():
     )
     st.sidebar.header("Graph Styling")
     layout_option = st.sidebar.selectbox(
-        "Graph Layout Algorithm:",
-        ["dot", "neato", "fdp", "sfdp", "circo", "twopi"],
+        "Graph Layout: ",
+        ["Hierarchical Layout / Tree Layout", "Spring Model Layout", "Fast Force-Directed Placement", "Scalable Force-Directed Placement", "Circular Layout", "Radial Layout"],
         help="Different algorithms arrange nodes differently. 'dot' is hierarchical, 'neato' is spring-based."
     )
     node_shape = st.sidebar.selectbox(
@@ -314,6 +314,15 @@ def main():
                 graph = extract_graph_data_from_prompt(user_prompt)
             if graph and graph.get("nodes") is not None and graph.get("edges") is not None:
                 graph = build_graph_from_data(graph)
+                layout_map = {
+                    "Hierarchical Layout / Tree Layout":"dot",
+                    "Spring Model Layout":"neato",
+                    "Fast Force-Directed Placement":"fdp",
+                    "Scalable Force-Directed Placement":"sfdp",
+                    "Circular Layout":"circo",
+                    "Radial Layout":"twopi"
+                }
+                layout_option=layout_map.get(layout_option)
                 shape_mapping = {
                     "Circle": "o",
                     "Square": "s",
